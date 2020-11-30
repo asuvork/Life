@@ -116,8 +116,6 @@ class BorderedField:
                 # print(neighbours_count)
                 if self.get_point(i, j):
                     # клетка живая
-                    print(neighbours_count)
-                    print(self.rules.is_survived(neighbours_count))
                     self.set_point(self.rules.is_survived(neighbours_count), i, j, new_field)
                 else:
                     # клетка не живая
