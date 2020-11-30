@@ -85,6 +85,11 @@ class BorderedField:
         else:
             return False
 
+    def inverse_point(self, x: int, y: int):
+        new_value = not bool(self.get_point(x, y))
+        self.set_point(new_value, x, y)
+        return new_value
+
     def get_neighbourhood(self, x: int, y: int) -> List[bool]:
         """
         Получить список состояний восьми соседних клеток
@@ -98,23 +103,30 @@ class BorderedField:
         """
         if 0 <= x < self.width and 0 <= y < self.height:
             return [self.get_point(x + i, y + j) for j in range(-1, 2) for i in range(-1, 2) if j != 0 or i != 0]
-        else:
-            return []
 
     def get_alive_neighbours_count(self, x: int, y: int) -> int:
-        return sum(1 for i, point in enumerate(self.get_neighbourhood(x, y)) if self.rules.mask[i])
+        # print(self.get_neighbourhood(x, y))
+        return sum(point for i, point in enumerate(self.get_neighbourhood(x, y)) if self.rules.mask[i])
 
     def step(self):
         new_field = [list([False] * len(self.field[0])) for i in range(len(self.field))]
-        for j in range(len(self.field)):
-            for i in range(len(self.field[0])):
+        for j in range(self.height):
+            for i in range(self.width):
+                neighbours_count = self.get_alive_neighbours_count(i, j)
+                # print(neighbours_count)
                 if self.get_point(i, j):
                     # клетка живая
-                    self.set_point(self.rules.is_survived(self.get_alive_neighbours_count(i, j)), i, j, new_field)
+                    print(neighbours_count)
+                    print(self.rules.is_survived(neighbours_count))
+                    self.set_point(self.rules.is_survived(neighbours_count), i, j, new_field)
                 else:
                     # клетка не живая
-                    self.set_point(self.rules.was_born(self.get_alive_neighbours_count(i, j)), i, j, new_field)
+                    self.set_point(self.rules.was_born(neighbours_count), i, j, new_field)
         self.field = new_field
+
+    def print(self):
+        for j in range(len(self.field)):
+            print(self.field[j])
 
 
 
