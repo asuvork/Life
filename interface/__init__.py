@@ -1,5 +1,5 @@
 from tkinter import BooleanVar, Checkbutton, LEFT, Frame, TOP, Tk, LabelFrame, Scale, Spinbox, IntVar, Y, DISABLED, \
-    Canvas, Button
+    Canvas, Button, Scrollbar, VERTICAL, BOTTOM, HORIZONTAL, X, RIGHT, BOTH
 
 from fields import BorderedField
 from rules import Rules
@@ -26,7 +26,7 @@ class Interface:
 
         self.canvas_frame = Frame()
         self.field = None
-        self.canvas_frame.pack(side=LEFT)
+        self.canvas_frame.pack(side=LEFT, expand=True, fill=BOTH)
 
         root.mainloop()
 
@@ -48,6 +48,14 @@ class Field:
         # self.canvas = Canvas(master, bg='white', borderwidth=0, highlightthickness=0)
         self.canvas = Canvas(master, bg='white', bd=0, highlightthickness=0)
         self.canvas.bind("<Button-1>", self.click)
+
+        self.h_bar = Scrollbar(master, orient=HORIZONTAL)
+        self.v_bar = Scrollbar(master, orient=VERTICAL)
+        self.h_bar.pack(side=BOTTOM, fill=X)
+        self.h_bar.config(command=self.canvas.xview)
+        self.v_bar.pack(side=RIGHT, fill=Y)
+        self.v_bar.config(command=self.canvas.yview)
+        self.canvas.config(xscrollcommand=self.h_bar.set, yscrollcommand=self.v_bar.set)
         self.canvas.pack()
         self.step_button = Button(master, text='Step', command=self.step)
         self.step_button.pack()
@@ -58,7 +66,7 @@ class Field:
         self.scale = scale
         self.cells = []
         self.canvas.delete("all")
-        self.canvas.config(width=field.width*scale, height=field.height*scale)
+        self.canvas.config(width=field.width*scale, height=field.height*scale, scrollregion=(0, 0, field.width*scale, field.height*scale))
         for j in range(self.field.height):
             self.cells.append([])
             for i in range(self.field.width):
@@ -104,7 +112,7 @@ class FieldOptions:
         self.spin_box_height = Spinbox(self.frame, text="height", textvariable=self.height, wrap=True,
                                        to=2000, from_=10)
         self.spin_box_height.pack(side=LEFT)
-        self.frame.pack(side=TOP)
+        self.frame.pack(side=TOP, fill="x", expand=True)
 
     def get_values(self):
         return self.width.get(), self.height.get()
@@ -119,7 +127,7 @@ class SurviveOptions:
             check_box = CheckBox(self.frame, default[i], str(i))
             self.check_boxes.append(check_box)
             check_box.cb.pack(side=LEFT)
-        self.frame.pack(side=TOP)
+        self.frame.pack(side=TOP, fill="x", expand=True)
 
     def get_values(self):
         return [cb.value.get() for cb in self.check_boxes]
@@ -148,7 +156,7 @@ class NeighboursOptions:
             self.check_boxes.append(check_box)
             check_box.cb.grid(row=2, column=i)
 
-        self.frame.pack(side=TOP)
+        self.frame.pack(side=TOP, fill="x", expand=True)
 
     def get_values(self):
         return [cb.value.get() for cb in self.check_boxes]
@@ -170,11 +178,11 @@ class BornOptions:
         self.frame = LabelFrame(master, text="Born option")
         self.value = IntVar(value=default)
         self.spin_box = Spinbox(self.frame, textvariable=self.value, wrap=True, width=int(count / 10 + 2),
-                                to=count, from_=1)
+                                to=count-1, from_=1)
         self.spin_box.pack(side=LEFT)
-        self.scale = Scale(self.frame, variable=self.value, orient='horizontal', to=count, from_=1, showvalue=0)
+        self.scale = Scale(self.frame, variable=self.value, orient='horizontal', to=count-1, from_=1, showvalue=0)
         self.scale.pack(side=LEFT)
-        self.frame.pack(side=TOP)
+        self.frame.pack(side=TOP, fill="x", expand=True)
 
     def get_values(self):
         return self.value.get()
