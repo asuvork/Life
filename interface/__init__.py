@@ -4,6 +4,7 @@ from interface.FieldFrame import FieldFrame
 
 
 root = Tk()
+root.title("Life")
 
 config_frame = ConfigurationFrame()
 field_frame = FieldFrame()

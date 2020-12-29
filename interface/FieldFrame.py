@@ -12,7 +12,7 @@ class FieldFrame:
             self.height = None
             self.width = None
             # self.canvas = Canvas(master, bg='white', borderwidth=0, highlightthickness=0)
-            self.canvas = Canvas(master, bg='white', bd=0, highlightthickness=0)
+            self.canvas = Canvas(master, bg='white', bd=0, highlightthickness=0, width=0, height=0)
             self.h_bar = Scrollbar(master, orient=HORIZONTAL)
             self.v_bar = Scrollbar(master, orient=VERTICAL)
             self.h_bar.pack(side=BOTTOM, fill=X)
@@ -20,7 +20,16 @@ class FieldFrame:
             self.v_bar.pack(side=RIGHT, fill=Y)
             self.v_bar.config(command=self.canvas.yview)
             self.canvas.config(xscrollcommand=self.h_bar.set, yscrollcommand=self.v_bar.set)
-            self.canvas.pack()
+
+            self.canvas.bind("<MouseWheel>", self._scroll_vertical)
+            self.canvas.bind('<Shift-MouseWheel>', self._scroll_horizontal)
+            self.canvas.pack(fill="none", expand=True)
+
+        def _scroll_vertical(self, event):
+            self.canvas.yview_scroll(int(-1 * (event.delta / 120)), "units")
+
+        def _scroll_horizontal(self, event):
+            self.canvas.xview_scroll(int(-1 * (event.delta / 120)), "units")
 
         def draw_grid(self, width, height):
             self.cells = []
