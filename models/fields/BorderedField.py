@@ -33,7 +33,7 @@ class BorderedField:
         return new_value
 
     def get_field(self):
-        return [self.field[i][1:-1] for i in range(1, self.width)]
+        return [self.field[i][1:-1] for i in range(1, self.width + 1)]
 
     def get_neighbourhood(self, x: int, y: int) -> List[bool]:
         """

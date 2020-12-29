@@ -25,9 +25,12 @@ class FieldFrame:
         def draw_grid(self, width, height):
             self.cells = []
             self.canvas.delete("all")
-            self.width = width * self.scale
-            self.height = height * self.scale
-            self.canvas.config(width=self.width, height=self.height, scrollregion=(0, 0, self.width, self.height))
+            self.width = width
+            self.height = height
+            scaled_width = width * self.scale
+            scaled_height = height * self.scale
+            self.canvas.config(width=scaled_width, height=scaled_height,
+                               scrollregion=(0, 0, scaled_width, scaled_height))
             for j in range(height):
                 self.cells.append([])
                 for i in range(width):
@@ -37,6 +40,7 @@ class FieldFrame:
                         self.canvas.create_rectangle(x, y, x + self.scale, y + self.scale, fill='white'))
 
         def update_field(self, field_array):
+            print(field_array)
             for j in range(self.height):
                 for i in range(self.width):
                     value = field_array[j][i]

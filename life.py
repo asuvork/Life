@@ -1,11 +1,11 @@
-from interface import commit_button, step_button, canvas, scale, config_frame
+from interface import commit_button, step_button, canvas, scale, config_frame, root
 from models.Rules import Rules
 from models.fields.BorderedField import BorderedField
 
 
 class Life:
     def __init__(self):
-        canvas.bind("<Button-1>", self.click)
+        canvas.canvas.bind("<Button-1>", self.click)
         step_button.config(command=self.step)
         commit_button.config(command=self.commit)
 
@@ -30,8 +30,9 @@ class Life:
     def step(self):
         if self.field:
             self.field.step()
-            canvas.update_field(self.field.get_field)
+            canvas.update_field(self.field.get_field())
 
 
 if __name__ == '__main__':
     Life()
+    root.mainloop()
