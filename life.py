@@ -13,6 +13,7 @@ class Life:
 
     def commit(self):
         width, height = config_frame.get_field_size()
+        # print(width, height)
         rules = Rules(**config_frame.get_rules())
         self.field = BorderedField(width, height, rules)
         canvas.draw_grid(width, height)

@@ -43,6 +43,7 @@ class FieldFrame:
             # print(field_array)
             for j in range(self.height):
                 for i in range(self.width):
+                    # print(j, i)
                     value = field_array[j][i]
                     self.update_cell(i, j, value)
 
@@ -56,7 +57,3 @@ class FieldFrame:
         self.frame = Frame()
         self.frame.pack(side=LEFT, expand=True, fill=BOTH)
         self.field_canvas = self.FieldCanvas(self.frame, self.default_scale)
-        self.step_button = Button(self.frame, text='Step')
-        self.step_button.pack()
-
-

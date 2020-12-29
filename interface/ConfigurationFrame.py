@@ -90,6 +90,8 @@ class ConfigurationFrame:
         self.mask_options = self.NeighboursOptions(self.frame, self.default_mask)
         self.commit_button = Button(self.frame, text='Commit')
         self.commit_button.pack()
+        self.step_button = Button(self.frame, text='Step')
+        self.step_button.pack()
 
     def get_rules(self):
         return {
