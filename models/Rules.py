@@ -6,9 +6,9 @@ class Rules:
         self.mask = mask
         self.survival_rule = survival_rule
         self.birth_rule = birth_rule
-        print(mask)
-        print(survival_rule)
-        print(birth_rule)
+        # print(mask)
+        # print(survival_rule)
+        # print(birth_rule)
 
     def is_survived(self, neighbours_count):
         return self.survival_rule[neighbours_count]

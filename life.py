@@ -8,8 +8,8 @@ class Life:
         canvas.canvas.bind("<Button-1>", self.click)
         step_button.config(command=self.step)
         commit_button.config(command=self.commit)
-
         self.field = None
+        root.mainloop()
 
     def commit(self):
         width, height = config_frame.get_field_size()
@@ -35,4 +35,3 @@ class Life:
 
 if __name__ == '__main__':
     Life()
-    root.mainloop()

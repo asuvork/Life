@@ -40,7 +40,7 @@ class FieldFrame:
                         self.canvas.create_rectangle(x, y, x + self.scale, y + self.scale, fill='white'))
 
         def update_field(self, field_array):
-            print(field_array)
+            # print(field_array)
             for j in range(self.height):
                 for i in range(self.width):
                     value = field_array[j][i]
