@@ -8,6 +8,7 @@ class ConfigurationFrame:
     default_born = 3
     default_width = 10
     default_height = 10
+    default_random = 50
 
     class FieldOptions:
         def __init__(self, master, width, height):
@@ -85,6 +86,22 @@ class ConfigurationFrame:
         def get_values(self):
             return self.value.get()
 
+    class Randomize:
+        def __init__(self, master, default):
+            self.frame = Frame(master)
+            self.value = IntVar(value=default)
+            self.spin_box = Spinbox(self.frame, textvariable=self.value, wrap=True, width=3,
+                                    to=100, from_=0)
+            self.spin_box.pack(side=LEFT)
+            label = Label(self.frame, text="%")
+            label.pack(side=LEFT)
+            self.randomize_button = Button(self.frame, text='Randomize')
+            self.randomize_button.pack(side=LEFT, fill="x", expand=True)
+            self.frame.pack(side=TOP, fill="x", expand=True)
+
+        def get_value(self):
+            return self.value.get()
+
     def __init__(self):
         self.frame = Frame()
         self.frame.pack(side=LEFT, fill='none', expand=False, anchor=NW)
@@ -92,8 +109,9 @@ class ConfigurationFrame:
         self.survive_options = self.SurviveOptions(self.frame, self.default_survive)
         self.birth_options = self.BirthOptions(self.frame, len(self.default_survive), self.default_born)
         self.mask_options = self.NeighboursOptions(self.frame, self.default_mask)
-        self.commit_button = Button(self.frame, text='Commit')
+        self.commit_button = Button(self.frame, text='Commit / Clean')
         self.commit_button.pack(side=TOP, fill="x", expand=True)
+        self.randomize = self.Randomize(self.frame, self.default_random)
         self.step_button = Button(self.frame, text='Step')
         self.step_button.pack(side=TOP, fill="x", expand=True)
 
@@ -106,6 +124,9 @@ class ConfigurationFrame:
 
     def get_field_size(self):
         return self.field_options.get_values()
+
+    def get_border_for_random(self):
+        return self.randomize.get_value()
 
 
 class CheckBox:

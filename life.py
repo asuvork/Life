@@ -1,4 +1,4 @@
-from interface import commit_button, step_button, canvas, scale, config_frame, root
+from interface import commit_button, step_button, randomize_button, canvas, scale, config_frame, root
 from models.Rules import Rules
 from models.fields.BorderedField import BorderedField
 
@@ -8,6 +8,7 @@ class Life:
         canvas.canvas.bind("<Button-1>", self.click)
         step_button.config(command=self.step)
         commit_button.config(command=self.commit)
+        randomize_button.config(command=self.randomize)
         self.field = None
         root.mainloop()
 
@@ -27,6 +28,12 @@ class Life:
             # print(self.canvas.winfo_width(), self.canvas.winfo_height())
             value = self.field.inverse_point(i, j)
             canvas.update_cell(i, j, value)
+
+    def randomize(self):
+        if self.field:
+            border = config_frame.get_border_for_random()
+            self.field.randomize(border)
+            canvas.update_field(self.field.get_field())
 
     def step(self):
         if self.field:

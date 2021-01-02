@@ -1,3 +1,4 @@
+import random
 from typing import List
 
 from models.Rules import Rules
@@ -72,3 +73,8 @@ class BorderedField:
     def print(self):
         for j in range(len(self.field)):
             print(self.field[j])
+
+    def randomize(self, border):
+        for i in range(1, self.height + 1):
+            self.field[i][1:-1] = [1 if random.randint(0, 100) >= border else 0 for _ in range(self.width)]
+
