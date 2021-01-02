@@ -1,5 +1,5 @@
-from tkinter import LabelFrame, BooleanVar, Checkbutton, IntVar, Spinbox, Scale, Frame, Button
-from tkinter import LEFT, TOP, DISABLED, Y
+from tkinter import LabelFrame, BooleanVar, Checkbutton, IntVar, Spinbox, Scale, Frame, Button, Label
+from tkinter import LEFT, TOP, DISABLED, Y, NW
 
 
 class ConfigurationFrame:
@@ -14,12 +14,16 @@ class ConfigurationFrame:
             self.frame = LabelFrame(master, text="Field option")
             self.width = IntVar(value=width)
             self.height = IntVar(value=height)
+            label_x = Label(self.frame, text="X: ")
+            label_x.pack(side=LEFT)
             self.spin_box_width = Spinbox(self.frame, text="width", textvariable=self.width, wrap=True,
                                           to=2000, from_=10)
-            self.spin_box_width.pack(side=LEFT)
+            self.spin_box_width.pack(side=LEFT, fill="x", expand=True)
+            label_y = Label(self.frame, text="Y: ")
+            label_y.pack(side=LEFT)
             self.spin_box_height = Spinbox(self.frame, text="height", textvariable=self.height, wrap=True,
                                            to=2000, from_=10)
-            self.spin_box_height.pack(side=LEFT)
+            self.spin_box_height.pack(side=LEFT, fill="x", expand=True)
             self.frame.pack(side=TOP, fill="x", expand=True)
 
         def get_values(self):
@@ -62,7 +66,7 @@ class ConfigurationFrame:
                 self.check_boxes.append(check_box)
                 check_box.cb.grid(row=2, column=i)
 
-            self.frame.pack(side=TOP, fill="x", expand=True)
+            self.frame.pack(side=LEFT)
 
         def get_values(self):
             return [cb.value.get() for cb in self.check_boxes]
@@ -75,7 +79,7 @@ class ConfigurationFrame:
                                     to=count - 1, from_=1)
             self.spin_box.pack(side=LEFT)
             self.scale = Scale(self.frame, variable=self.value, orient='horizontal', to=count - 1, from_=1, showvalue=0)
-            self.scale.pack(side=LEFT)
+            self.scale.pack(side=LEFT, fill="x", expand=True)
             self.frame.pack(side=TOP, fill="x", expand=True)
 
         def get_values(self):
@@ -83,15 +87,15 @@ class ConfigurationFrame:
 
     def __init__(self):
         self.frame = Frame()
-        self.frame.pack(side=LEFT, fill=Y)
+        self.frame.pack(side=LEFT, fill='none', expand=False, anchor=NW)
         self.field_options = self.FieldOptions(self.frame, self.default_width, self.default_height)
         self.survive_options = self.SurviveOptions(self.frame, self.default_survive)
         self.birth_options = self.BirthOptions(self.frame, len(self.default_survive), self.default_born)
         self.mask_options = self.NeighboursOptions(self.frame, self.default_mask)
         self.commit_button = Button(self.frame, text='Commit')
-        self.commit_button.pack()
+        self.commit_button.pack(side=TOP, fill="x", expand=True)
         self.step_button = Button(self.frame, text='Step')
-        self.step_button.pack()
+        self.step_button.pack(side=TOP, fill="x", expand=True)
 
     def get_rules(self):
         return {
